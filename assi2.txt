@@ -1,0 +1,83 @@
+1.Write a query for the HR department to produce the addresses of all the departments.
+    Use the LOCATIONS and COUNTRIES tables. Show the location ID, street address,
+    city, state or province, and country in the output. Run the query
+   
+
+SELECT LOCATION_ID,STREET_ADDRESS,CITY,STATE_PROVINCE,COUNTRY_NAME FROM LOCATIONS
+    -> JOIN COUNTRIES
+    -> ON LOCATIONS.COUNTRY_ID=COUNTRIES.COUNTRY_ID;
+
+2.The HR department needs a report of employees in Toronto. Display the last name, job,   
+    department number, and department name for all employees who work in Toronto.
+
+SELECT EMPLOYEES.LAST_NAME,EMPLOYEES.JOB_ID,EMPLOYEES.DEPARTMENT_ID,DEPARTMENTS.DEPARTMENT_NAME FROM EMPLOYEES
+    -> JOIN DEPARTMENTS ON (EMPLOYEES.DEPARTMENT_ID=DEPARTMENTS.DEPARTMENT_ID)
+    -> JOIN LOCATIONS ON (DEPARTMENTS.LOCATION_ID=LOCATIONS.LOCATION_ID)
+    -> WHERE CITY="TORONTO";
+
+3) Create a report for HR that displays the last name and salary of every employee who reports to   
+    King.
+SELECT EMPLOYEES.LAST_NAME,EMPLOYEES.SALARY,EMPLOYEES.EMPLOYEE_ID,EMPLOYEES.MANAGER_ID FROM EMPLOYEES
+    -> WHERE (EMPLOYEES.MANAGER_ID=EMPLOYEES.EMPLOYEE_ID) AND EMPLOYEES.LAST_NAME='KING';
+
+4) Create Table MY_EMPLOYEE. Description is shown below:
+
+ CREATE TABLE MY_EMPLOYEE(
+    -> ID INT(4) NOT NULL,
+    -> LAST_NAME VARCHAR(25),
+    -> FIRST_NAME VARCHAR(25),
+    -> USERID VARCHAR(8),
+    -> SALARY DECIMAL(9,2));
+
+5) Add the following data to the MY_EMPLOYEE table 
+
+   
+INSERT INTO MY_EMPLOYEE VALUES
+    -> (1,'PATEL','RALPH','RPATEL',895),
+    -> (2,'DANCE','BETTY','BDANCE',960),
+    -> (3,'BIRI','BEN','BBIRI',1100),
+    -> (4,'NEWMAN','CHAD','CNEWMAN',750),
+    -> (5,'ROPEBURN','AUDREY','AROPEBUR',1550);
+    -> SALARY DECIMAL(9,2));
+
+6) Change the last name of employee 3 to Drexler.
+UPDATE MY_EMPLOYEE
+    -> SET LAST_NAME='DREXLER'
+    -> WHERE ID=3;
+
+7) Change the salary to $1,000 for all employees who have a salary less than $900.
+
+UPDATE MY_EMPLOYEE
+    -> SET SALARY =1000
+    -> WHERE SALARY<900;
+
+8) Delete Betty Dancs from the MY_EMPLOYEE table.
+
+ DELETE FROM MY_EMPLOYEE
+    -> WHERE LAST_NAME='DANCS';
+
+9) Mark an intermediate point in the processing of the transaction.
+SET AUTOCOMMIT=0;
+SAVEPOINT FIRST;
+
+10) Delete all the rows from the MY_EMPLOYEE table.  Confirm that the table is empty.
+
+ DELETE FROM MY_EMPLOYEE;
+
+11) Discard the most recent DELETE operation.
+
+ ROLLBACK TO FIRST;
+
+12) Make the data addition permanent.
+COMMIT;
+
+13) The staff in the HR department wants to hide some of the data in the EMPLOYEES table. Create 
+      a view called EMPLOYEES_VU based on the employee numbers, employee last names, and 
+     department numbers from the EMPLOYEES table. The heading for the employee name should be  
+     EMPLOYEE.
+
+     Confirm that the view works. Display the contents of the EMPLOYEES_VU view
+
+ permanent.' at line 1
+mysql> CREATE VIEW EMPLOYEES_VU AS
+    -> SELECT EMPLOYEE_ID,LAST_NAME AS EMPLOYEE,DEPARTMENT_ID FROM EMPLOYEES;
